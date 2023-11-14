@@ -7,6 +7,9 @@
 
 namespace sports_data_generator {
 
+// Wurzel von 2 (die Laenge eines Einheitsdreiecks) minus 1
+static constexpr float sqrt2_m1 = 0.414213f;
+
 SportsDataGenerator::SportsDataGenerator() {}
 
 Output SportsDataGenerator::generate() {
@@ -15,9 +18,13 @@ Output SportsDataGenerator::generate() {
     // Wir generieren 1x pro Sekunde Daten => Ein Spieler der sich im letzten Durchlauf
     // POSSIBLE_MANHATTEN_VELOCITY_HUMAN/2.f bewegt hat wuerde bei mehr als
     // POSSIBLE_MANHATTEN_VELOCITY_HUMAN/2.f als max Wert mglw. das Limit ueberschreiten.
+    // Zusaetzlich dazu ist die Vel. noch durch die Laenge des Vektors (x,y) gegeben, also darf
+    // die Bewegung pro tick nicht PMVH*sqrt2_m1 Ueberschreiten, weil sonst
+    // die wirklich Geschw. des Spielers das erlaubte Limit ueberschreitet
+    // [Vielleicht bin ich das auch am overthinken fuer eine Einstellungsaufgabe]
     auto dist = std::uniform_real_distribution<float> {
-        -Player::POSSIBLE_MANHATTEN_VELOCITY_HUMAN / 2.f,
-        Player::POSSIBLE_MANHATTEN_VELOCITY_HUMAN / 2.f};
+        -Player::POSSIBLE_VELOCITY_HUMAN * sqrt2_m1,
+        Player::POSSIBLE_VELOCITY_HUMAN * sqrt2_m1};
 
     // Zufaellige Bewegung der Spieler simulieren
     for (auto& player : _field.players) {

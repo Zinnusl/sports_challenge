@@ -16,8 +16,8 @@ struct Player {
     float y = 50.f;
     float z = 0.f;
 
-    static constexpr float POSSIBLE_MANHATTEN_VELOCITY_HUMAN =
-        5.f;  //! Meter pro Sekunde
+    // Anmk.: Hier wuerde ich wahrscheinlich noch so etwas wie ein 5mps literal einbringen
+    static constexpr float POSSIBLE_VELOCITY_HUMAN = 5.f;  //! Meter pro Sekunde
 };
 
 struct Field {
